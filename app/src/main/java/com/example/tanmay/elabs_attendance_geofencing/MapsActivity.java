@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<LatLng> mGeofenceCoordinates;
     ArrayList<Integer> mGeofenceRadius;
     private GeofenceStore mGeofenceStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
