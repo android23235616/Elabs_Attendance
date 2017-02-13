@@ -1,6 +1,7 @@
 package com.example.tanmay.elabs_attendance_geofencing;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,7 +30,8 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         Variables_Init();
         if(isRegistered()){
-            Display("Registered");
+            startActivity(new Intent(this, MapsActivity.class));
+            finish();
         }else{
             sharedPreferencesEditor.putBoolean(Constants.Registration_Shared_Preferences_key,true);
             sharedPreferencesEditor.apply();
@@ -42,6 +44,8 @@ public class Registration extends AppCompatActivity {
                 String N = Number.getText().toString();
                 String E = Email.getText().toString();
                 Profile profile = new Profile(R,N,E);
+                sharedPreferencesEditor.putString("Roll",R);
+                sharedPreferencesEditor.apply();
                 WriteToDatabase(profile);
             }
         });

@@ -26,4 +26,13 @@
         android:id="@+id/Present"
        android:layout_gravity="bottom"
        />
+
+    <Spinner
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/map"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="48dp"
+        android:id="@+id/subjects" />
 </RelativeLayout>

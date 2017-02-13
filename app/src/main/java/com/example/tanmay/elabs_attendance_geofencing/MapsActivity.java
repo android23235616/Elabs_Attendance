@@ -1,5 +1,7 @@
 package com.example.tanmay.elabs_attendance_geofencing;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
@@ -7,6 +9,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -19,9 +23,20 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+//import static android.support.design.R.styleable.Spinner;
+import android.widget.Spinner;
+
+import javax.security.auth.Subject;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnCameraChangeListener {
 
@@ -30,9 +45,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<LatLng> mGeofenceCoordinates;
     ArrayList<Integer> mGeofenceRadius;
     private GeofenceStore mGeofenceStore;
-
+    private Spinner subjects;
     Button Present;
-
+    private String mainSubject="";
+    DatabaseReference reference;
+    SharedPreferences sharedPreferences;
+    int patt=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +89,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }else{
                     Both("Not present in the class.");
                 }
+                mainFunction();
+            }
+        });
+
+        subjects.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mainSubject =parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -84,9 +115,94 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGeofence = new ArrayList<Geofence>();
         mGeofenceCoordinates = new ArrayList<LatLng>();
         mGeofenceRadius = new ArrayList<Integer>();
+        subjects = (Spinner)findViewById(R.id.subjects);
         Present = (Button)findViewById(R.id.Present);
+        setUpSpinner();
+        sharedPreferences = getSharedPreferences(Constants.Registration_Shared_Preferences, Context.MODE_PRIVATE);
+        reference = FirebaseDatabase.getInstance().getReference("Attendance");
     }
 
+
+    private void mainFunction(){
+        if(mainSubject.equals(Constants.subject_Changed_Condition)){
+            Both("Please choose a subject");
+        }else {
+            reference = FirebaseDatabase.getInstance().getReference(mainSubject);
+            checker();
+            if(patt==0) {
+                Attendance_Profile profile = new Attendance_Profile(mainSubject, getRoll(), 0, getDate());
+                WriteToDatabase(profile);
+            }
+        }
+    }
+
+    private void checker(){
+        reference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Attendance_Profile profile=dataSnapshot.getValue(Attendance_Profile.class);
+                if(profile.Roll.equals(getRoll())&&!(profile.equals(null))){
+                    double per = profile.Attendance;
+                    profile = new Attendance_Profile(mainSubject, getRoll(), per+1, getDate());
+                    WriteToDatabase(profile);
+                    //patt=1;
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private String getDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        int mYear = calendar.get(Calendar.YEAR);
+        int mMonth = calendar.get(Calendar.MONTH);
+        int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        return mDay+" "+Constants.Months[mMonth-1]+" "+mYear;
+    }
+
+    private void WriteToDatabase(Attendance_Profile profile){
+        reference.child(profile.Roll).setValue(profile);
+    }
+
+    private String getRoll(){
+        return sharedPreferences.getString("Roll","null");
+    }
+
+    private void setUpSpinner(){
+        List<String> sub = new ArrayList<>();
+        sub.add("Choose Your class");
+        sub.add("Android");
+        sub.add("Communication");
+        sub.add("Embedded");
+        sub.add("MATLAB");
+        sub.add("Networking");
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,sub);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subjects.setAdapter(arrayAdapter);
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
