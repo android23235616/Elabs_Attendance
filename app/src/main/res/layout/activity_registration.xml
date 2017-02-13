@@ -1,0 +1,42 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:hint="Roll"
+        android:ems="10"
+        android:layout_margin="30dp"
+        android:id="@+id/Roll" />
+
+    <EditText
+        android:hint="Email"
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/Email" />
+
+    <EditText
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:hint="Phome Number"
+        android:id="@+id/Number" />
+
+    <Button
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffff"
+        android:layout_marginTop="90dp"
+        android:text="R  E  G  I  S  T  E  R"
+        android:layout_margin="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/register" />
+</LinearLayout>
