@@ -50,12 +50,15 @@ public class GeofenceIntentService extends IntentService{
             {
                 case Geofence.GEOFENCE_TRANSITION_ENTER:
                     notificationTitle="Entered";
+                    Constants.Has_Entered=Constants.Entered;
                     break;
                 case  Geofence.GEOFENCE_TRANSITION_EXIT:
                     notificationTitle="Exited";
+                    Constants.Has_Entered=Constants.Not_Entered;
                     break;
                 case Geofence.GEOFENCE_TRANSITION_DWELL:
                     notificationTitle="Dwelling,ghum rha hai bhai";
+                    Constants.Has_Entered=notificationTitle;
                     break;
 
                 default:

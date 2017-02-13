@@ -5,6 +5,10 @@ import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,6 +31,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<Integer> mGeofenceRadius;
     private GeofenceStore mGeofenceStore;
 
+    Button Present;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         initialize();
 
-        mGeofenceCoordinates.add(new LatLng(20.35138524475558, 85.82143073306530));//My room
+        mGeofenceCoordinates.add(new LatLng(Constants.Lat, Constants.Lng));//My room
 
         mGeofence.add(new Geofence.Builder()
                 .setRequestId("Hello man Welcome to Elabs")
@@ -56,12 +62,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 | Geofence.GEOFENCE_TRANSITION_EXIT).build());
 
         mGeofenceStore=new GeofenceStore(this,mGeofence);
+
+        Present.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Constants.Has_Entered.equals(Constants.Entered)){
+                    Both("He is Present in the class");
+                }else{
+                    Both("Not present in the class.");
+                }
+            }
+        });
+    }
+
+    private void Both(String s){
+        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+        Log.d("info",s);
     }
 
     private void initialize() {
         mGeofence = new ArrayList<Geofence>();
         mGeofenceCoordinates = new ArrayList<LatLng>();
         mGeofenceRadius = new ArrayList<Integer>();
+        Present = (Button)findViewById(R.id.Present);
     }
 
 
