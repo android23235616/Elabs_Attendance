@@ -85,11 +85,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 if(Constants.Has_Entered.equals(Constants.Entered)){
-                    Both("He is Present in the class");
+
+                    mainFunction();
                 }else{
                     Both("Not present in the class.");
                 }
-                mainFunction();
+
             }
         });
 
@@ -179,7 +180,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return mDay+" "+Constants.Months[mMonth-1]+" "+mYear;
+        return mDay+" "+Constants.Months[mMonth]+" "+mYear;
     }
 
     private void WriteToDatabase(Attendance_Profile profile){
