@@ -68,7 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGeofence.add(new Geofence.Builder()
                 .setRequestId("Hello man Welcome to Elabs")
                 // The coordinates of the center of the geofence and the radius in meters.
-                .setCircularRegion(mGeofenceCoordinates.get(0).latitude, mGeofenceCoordinates.get(0).longitude, 35)
+                .setCircularRegion(mGeofenceCoordinates.get(0).latitude, mGeofenceCoordinates.get(0).longitude, Constants.radius)
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 // Required when we use the transition type of GEOFENCE_TRANSITION_DWELL
                 .setLoiteringDelay(30000)
@@ -240,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onCameraChange(CameraPosition Position) {
 
         mMap.addCircle(new CircleOptions().center(mGeofenceCoordinates.get(0))
-                .radius(50)
+                .radius(Constants.radius)
                 .fillColor(0x40ff0000)
                 .strokeColor(Color.TRANSPARENT).strokeWidth(1));
 
