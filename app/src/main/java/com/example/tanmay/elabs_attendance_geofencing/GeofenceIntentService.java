@@ -58,7 +58,7 @@ public class GeofenceIntentService extends IntentService{
                     break;
                 case Geofence.GEOFENCE_TRANSITION_DWELL:
                     notificationTitle="Dwelling,ghum rha hai bhai";
-                    Constants.Has_Entered=notificationTitle;
+                    Constants.Has_Entered=Constants.Entered;
                     break;
 
                 default:

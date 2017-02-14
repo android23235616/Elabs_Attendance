@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
@@ -32,9 +33,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-//import static android.support.design.R.styleable.Spinner;
-import android.widget.Spinner;
 
 import javax.security.auth.Subject;
 
@@ -85,8 +83,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 if(Constants.Has_Entered.equals(Constants.Entered)){
-
                     mainFunction();
+
                 }else{
                     Both("Not present in the class.");
                 }
@@ -131,7 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             reference = FirebaseDatabase.getInstance().getReference(mainSubject);
             checker();
             if(patt==0) {
-                Attendance_Profile profile = new Attendance_Profile(mainSubject, getRoll(), 0, getDate());
+                Attendance_Profile profile = new Attendance_Profile(mainSubject, "1000", 0, getDate());
                 WriteToDatabase(profile);
             }
         }
@@ -180,7 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int mMonth = calendar.get(Calendar.MONTH);
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return mDay+" "+Constants.Months[mMonth]+" "+mYear;
+        return mDay+" "+ Constants.Months[mMonth]+" "+mYear;
     }
 
     private void WriteToDatabase(Attendance_Profile profile){

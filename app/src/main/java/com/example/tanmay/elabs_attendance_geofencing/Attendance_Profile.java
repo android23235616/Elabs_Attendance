@@ -1,5 +1,8 @@
 package com.example.tanmay.elabs_attendance_geofencing;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Tanmay on 14-02-2017.
  */
@@ -18,6 +21,7 @@ public class Attendance_Profile {
         Roll = R;
         Attendance=A;
         this.time=time;
+
     }
 
 }

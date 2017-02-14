@@ -14,8 +14,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Registration extends AppCompatActivity {
 
@@ -23,7 +29,7 @@ public class Registration extends AppCompatActivity {
     Button Register;
     SharedPreferences preferences;
     SharedPreferences.Editor sharedPreferencesEditor;
-    DatabaseReference reference;
+    DatabaseReference reference, subjectReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +53,13 @@ public class Registration extends AppCompatActivity {
                 sharedPreferencesEditor.putString("Roll",R);
                 sharedPreferencesEditor.apply();
                 WriteToDatabase(profile);
+                InstantiateProfile();
+                startActivity(new Intent(Registration.this, MapsActivity.class));
+                finish();
             }
         });
+
+
     }
 
     private void Variables_Init(){
@@ -72,6 +83,26 @@ public class Registration extends AppCompatActivity {
 
     private boolean isRegistered(){
         return preferences.getBoolean(Constants.Registration_Shared_Preferences_key,false);
+    }
+
+    private void InstantiateProfile(){
+        List<String> sub = new ArrayList<>();
+        sub.add("Choose Your class");
+        sub.add("Android");
+        sub.add("Communication");
+        sub.add("Embedded");
+        sub.add("MATLAB");
+        sub.add("Networking");
+        for(int i=1; i<sub.size(); i++){
+            subjectReference = FirebaseDatabase.getInstance().getReference(sub.get(i));
+            Attendance_Profile profile = new Attendance_Profile(sub.get(i),Roll.getText().toString(), 0, "");
+            WriteToProfileDatabase(profile);
+        }
+    }
+
+    private void WriteToProfileDatabase(Attendance_Profile profile) {
+        subjectReference.child(profile.Roll).setValue(profile);
+        subjectReference.child("1000").setValue(new Attendance_Profile("1000","",0,0+""));
     }
 
 }
