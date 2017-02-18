@@ -1,24 +1,27 @@
 package com.example.tanmay.elabs_attendance_geofencing;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,36 +33,100 @@ public class Registration extends AppCompatActivity {
     SharedPreferences preferences;
     SharedPreferences.Editor sharedPreferencesEditor;
     DatabaseReference reference, subjectReference;
+    ProgressDialog dialog;
+    CheckValidity validity ;
+    Handler handler;
+   // TextView textSubject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         Variables_Init();
-        if(isRegistered()){
+        if (isRegistered()) {
             startActivity(new Intent(this, MapsActivity.class));
             finish();
-        }else{
-            sharedPreferencesEditor.putBoolean(Constants.Registration_Shared_Preferences_key,true);
+        } else {
+            sharedPreferencesEditor.putBoolean(Constants.Registration_Shared_Preferences_key, true);
             sharedPreferencesEditor.apply();
         }
+
 
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String R = Roll.getText().toString();
-                String N = Number.getText().toString();
-                String E = Email.getText().toString();
-                Profile profile = new Profile(R,N,E);
-                sharedPreferencesEditor.putString("Roll",R);
-                sharedPreferencesEditor.apply();
-                WriteToDatabase(profile);
-                InstantiateProfile();
-                startActivity(new Intent(Registration.this, MapsActivity.class));
-                finish();
+              String r= Roll.getText().toString();
+                validity=  new CheckValidity(Registration.this,r);
+                dialog = ProgressDialog.show(Registration.this, "Registering", "Please Wait...");
+                dialog.setCancelable(true);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(true){
+                            if(validity.has_visited){
+                                Register();
+                                break;
+                            }else{
+                                try {
+                                   Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                }).start();
+            }
+
+
+        });
+    }
+
+    private void Register(){
+        CheckChilds();
+       final String R = Roll.getText().toString();
+       final String N = Number.getText().toString();
+       final String E = Email.getText().toString();
+
+        if (!validity.Length()) {
+            Display("Roll Number is Invalid");
+
+        } else if (!validity.isNotDuplicate && validity.has_visited) {
+            Display("Roll Number is Duplicate");
+
+
+        } else if (validity.has_visited) {
+
+             startActivity(new Intent(Registration.this, MapsActivity.class));
+             finish();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    Profile profile = new Profile(R, N, E);
+                    sharedPreferencesEditor.putString("Roll", R);
+                    sharedPreferencesEditor.apply();
+                    WriteToDatabase(profile);
+                    InstantiateProfile();
+                }
+            });
+        }
+        validity.has_visited=false;
+    }
+
+
+    private void CheckChilds(){
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dialog.cancel();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
-
-
     }
 
     private void Variables_Init(){
@@ -70,14 +137,23 @@ public class Registration extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference("Profile");
         preferences = getSharedPreferences(Constants.Registration_Shared_Preferences, Context.MODE_PRIVATE);
         sharedPreferencesEditor = preferences.edit();
+        handler = new Handler();
     }
 
     private void WriteToDatabase(Profile profile){
+
         reference.child(profile.Roll).setValue(profile);
+        reference.child("1000").setValue(new Profile("1000","",""));
+
     }
 
-    private void Display(String msg){
-        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show();
+    private void Display(final String msg){
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(Registration.this,msg,Toast.LENGTH_SHORT).show();
+            }
+        });
         Log.i("info",msg);
     }
 

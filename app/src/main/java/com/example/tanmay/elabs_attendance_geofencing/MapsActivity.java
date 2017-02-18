@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
@@ -48,6 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String mainSubject="";
     DatabaseReference reference;
     SharedPreferences sharedPreferences;
+    TextView textSubject;
     int patt=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mainSubject =parent.getItemAtPosition(position).toString();
+                textSubject.setText(mainSubject);
             }
 
             @Override
@@ -111,6 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void initialize() {
+        textSubject = (TextView)findViewById(R.id.subjectText);
         mGeofence = new ArrayList<Geofence>();
         mGeofenceCoordinates = new ArrayList<LatLng>();
         mGeofenceRadius = new ArrayList<Integer>();
@@ -140,11 +144,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Attendance_Profile profile=dataSnapshot.getValue(Attendance_Profile.class);
-                if(profile.Roll.equals(getRoll())&&!(profile.equals(null))){
-                    double per = profile.Attendance;
-                    profile = new Attendance_Profile(mainSubject, getRoll(), per+1, getDate());
-                    WriteToDatabase(profile);
-                    //patt=1;
+                if(profile.Roll.equals(getRoll())&&!(profile.equals(null))) {
+                    String presentDate = profile.time;
+                    if (presentDate.equals(getDate())) {
+                        Both("You have already given your attendance");
+                    } else {
+                        double per = profile.Attendance;
+                        profile = new Attendance_Profile(mainSubject, getRoll(), per + 1, getDate());
+                        WriteToDatabase(profile);
+                        //patt=1;
+                    }
                 }
             }
 

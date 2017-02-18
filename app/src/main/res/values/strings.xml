@@ -2,4 +2,5 @@
     <string name="app_name">Elabs_Attendance_Geofencing</string>
     <string name="title_activity_maps">Mappy</string>
     <string name="title_activity_registration">Registration</string>
+    <string name="title_activity_splash">Splash</string>
 </resources>

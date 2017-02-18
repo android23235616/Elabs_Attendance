@@ -6,11 +6,11 @@ package com.example.tanmay.elabs_attendance_geofencing;
 
 public class Constants {
 
-    public static final String Registration_Shared_Preferences="SharedPrefernces15";
+    public static final String Registration_Shared_Preferences="SharedPrefernces35";
     public static final String Registration_Shared_Preferences_key = "Registered";
     public static String Has_Entered = "";
-    public static String Entered = "23123876421";
-    public static String Not_Entered = "232131321";
+    public static String Entered = "23123876476567665765876877686721nvcncv";
+    public static String Not_Entered = "232145434656546456547vfvfxhvngn31321";
     public static final double Lat2 = 20.35138524475558;
     public static final double Lng2= 85.82143073306530;
     public static final double Lat = 20.35550974091063; // lt1

@@ -1,9 +1,13 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditText
+
+        android:padding="10dp"
+        android:background="@color/colorBackgroundRegistration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
@@ -13,6 +17,9 @@
         android:id="@+id/Roll" />
 
     <EditText
+
+        android:padding="10dp"
+        android:background="@color/colorBackgroundRegistration"
         android:hint="Email"
         android:layout_margin="30dp"
         android:layout_width="match_parent"
@@ -22,6 +29,9 @@
         android:id="@+id/Email" />
 
     <EditText
+
+        android:padding="10dp"
+        android:background="@color/colorBackgroundRegistration"
         android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +41,8 @@
         android:id="@+id/Number" />
 
     <Button
-        android:background="@color/colorPrimary"
+
+        android:background="#28B463"
         android:textColor="#ffffff"
         android:layout_marginTop="90dp"
         android:text="R  E  G  I  S  T  E  R"
