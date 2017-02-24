@@ -46,7 +46,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<LatLng> mGeofenceCoordinates;
     ArrayList<Integer> mGeofenceRadius;
     private GeofenceStore mGeofenceStore;
-
     Button Present;
     private String mainSubject="";
     Intent i;
