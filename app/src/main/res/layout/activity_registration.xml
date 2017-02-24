@@ -1,53 +1,125 @@
+<android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+android:fitsSystemWindows="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/Second_Background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <TextView
+        android:id="@+id/textview1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="E - L A B S"
+        android:textSize="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/textview2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="_____R e g i s t e r_____"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"/>
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textview3"
+                android:layout_margin="10dp"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Roll Number"
+                android:textColor="#ffffff"/>
     <EditText
 
-        android:padding="10dp"
-        android:background="@color/colorBackgroundRegistration"
+        android:padding="12dp"
+        android:background="@drawable/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
-        android:hint="Roll"
-        android:ems="10"
-        android:layout_margin="30dp"
-        android:id="@+id/Roll" />
 
+        android:ems="10"
+
+        android:id="@+id/Roll" /></LinearLayout>
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textview4"
+                android:layout_margin="10dp"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textColor="#ffffff"/>
     <EditText
 
-        android:padding="10dp"
-        android:background="@color/colorBackgroundRegistration"
-        android:hint="Email"
-        android:layout_margin="30dp"
+        android:padding="12dp"
+
+        android:background="@drawable/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/Email" />
+        android:id="@+id/Email" /></LinearLayout>
+<LinearLayout
+    android:layout_margin="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/textview5"
+        android:layout_margin="10dp"
+        android:textSize="10dp"
+        android:textStyle="bold"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone Number"
+        android:textColor="#ffffff"/>
 
     <EditText
 
-        android:padding="10dp"
-        android:background="@color/colorBackgroundRegistration"
-        android:layout_margin="30dp"
+        android:padding="12dp"
+        android:background="@drawable/background"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:hint="Phome Number"
-        android:id="@+id/Number" />
 
+        android:id="@+id/Number" />
+</LinearLayout>
     <Button
 
-        android:background="#28B463"
+        android:background="@color/second_button_background"
         android:textColor="#ffffff"
         android:layout_marginTop="90dp"
         android:text="R  E  G  I  S  T  E  R"
-        android:layout_margin="60dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/register" />
+
 </LinearLayout>
+</ScrollView>
+</android.support.design.widget.CoordinatorLayout>

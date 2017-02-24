@@ -1,9 +1,11 @@
 package com.example.tanmay.elabs_attendance_geofencing;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -44,9 +46,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<LatLng> mGeofenceCoordinates;
     ArrayList<Integer> mGeofenceRadius;
     private GeofenceStore mGeofenceStore;
-    private Spinner subjects;
+
     Button Present;
     private String mainSubject="";
+    Intent i;
     DatabaseReference reference;
     SharedPreferences sharedPreferences;
     TextView textSubject;
@@ -79,33 +82,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 | Geofence.GEOFENCE_TRANSITION_DWELL
                                 | Geofence.GEOFENCE_TRANSITION_EXIT).build());
 
-        mGeofenceStore=new GeofenceStore(this,mGeofence);
+        mGeofenceStore = new GeofenceStore(this, mGeofence);
 
         Present.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Constants.Has_Entered.equals(Constants.Entered)){
+                if (Constants.Has_Entered.equals(Constants.Entered)) {
                     mainFunction();
 
-                }else{
+                } else {
                     Both("Not present in the class.");
                 }
 
             }
         });
 
-        subjects.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mainSubject =parent.getItemAtPosition(position).toString();
-                textSubject.setText(mainSubject);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     private void Both(String s){
@@ -114,15 +105,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void initialize() {
-        textSubject = (TextView)findViewById(R.id.subjectText);
+       // textSubject = (TextView)findViewById(R.id.subjectText);
         mGeofence = new ArrayList<Geofence>();
         mGeofenceCoordinates = new ArrayList<LatLng>();
         mGeofenceRadius = new ArrayList<Integer>();
-        subjects = (Spinner)findViewById(R.id.subjects);
+        i = getIntent();
+        mainSubject = i.getStringExtra("mainSubject");
         Present = (Button)findViewById(R.id.Present);
-        setUpSpinner();
+
         sharedPreferences = getSharedPreferences(Constants.Registration_Shared_Preferences, Context.MODE_PRIVATE);
         reference = FirebaseDatabase.getInstance().getReference("Attendance");
+        setTypeFace();
     }
 
 
@@ -198,25 +191,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return sharedPreferences.getString("Roll","null");
     }
 
-    private void setUpSpinner(){
-        List<String> sub = new ArrayList<>();
-        sub.add("Choose Your class");
-        sub.add("Android");
-        sub.add("Communication");
-        sub.add("Embedded");
-        sub.add("MATLAB");
-        sub.add("Networking");
+    private void setTypeFace(){
+        Typeface t = Typeface.createFromAsset(getAssets(),"fonts/a.ttf");
+        Present.setTypeface(t);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,sub);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        subjects.setAdapter(arrayAdapter);
+
+
     }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(20.35138524475558, 85.82143073306530), 14));
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         mMap.setIndoorEnabled(false);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -245,13 +234,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+
+
     @Override
     public void onCameraChange(CameraPosition Position) {
 
-        mMap.addCircle(new CircleOptions().center(mGeofenceCoordinates.get(0))
-                .radius(Constants.radius)
-                .fillColor(0x40ff0000)
-                .strokeColor(Color.TRANSPARENT).strokeWidth(1));
+//        mMap.addCircle(new CircleOptions().center(mGeofenceCoordinates.get(0))
+//                .radius(Constants.radius)
+//                .fillColor(0x40ff0000)
+//                .strokeColor(Color.TRANSPARENT).strokeWidth(1));
 
     }
 }

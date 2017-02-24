@@ -3,4 +3,8 @@
     <string name="title_activity_maps">Mappy</string>
     <string name="title_activity_registration">Registration</string>
     <string name="title_activity_splash">Splash</string>
+
+    <string name="title_activity_main_subject">MainSubject</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.tanmay.elabs_attendance_geofencing;
 
+import android.animation.Animator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,15 +16,33 @@ import com.bumptech.glide.load.resource.bitmap.ImageHeaderParser;
 import pl.droidsonroids.gif.GifImageView;
 
 public class Splash extends AppCompatActivity {
-    ImageView gif;
+    ImageView logo;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstancecState){
+        super.onCreate(savedInstancecState);
         setContentView(R.layout.activity_splash);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        gif = (ImageView)findViewById(R.id.gifImageView);
-        Glide.with(this).load(R.drawable.unn).asGif().centerCrop().crossFade().into(gif);
-    }
+        logo = (ImageView)findViewById(R.id.logo);
+        logo.animate().alpha(1).setDuration(2400).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
 
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                startActivity(new Intent(Splash.this, Registration.class));
+                finish();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
 }

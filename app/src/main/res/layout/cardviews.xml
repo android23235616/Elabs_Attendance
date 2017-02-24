@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/colorPrimaryDark"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_margin="5dp"
+                android:paddingBottom="0dp"
+                android:orientation="vertical"
+                >
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imageViewMovie"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/android"
+                        android:scaleType="centerCrop"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent_grey"
+                        android:text="A N D R O I D"
+                        android:textStyle="bold"
+                        android:textSize="19dp"
+                        android:id="@+id/android"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="160dp"
+                        />
+                </FrameLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            card_view:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="0dp"
+                android:orientation="vertical"
+                >
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imageViewGame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/matlab"
+                        android:scaleType="centerCrop"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent_grey"
+                        android:text="M A T L A B"
+                        android:id="@+id/MATLAB"
+                        android:textStyle="bold"
+                        android:textSize="19dp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="160dp"
+                        />
+                </FrameLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            card_view:cardBackgroundColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="0dp"
+                android:orientation="vertical"
+                >
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imageViewStationary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/communication"
+                        android:scaleType="centerCrop"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent_grey"
+                        android:text="C O M M U N I C A T I O N"
+                        android:id="@+id/COMMUNICATION"
+                        android:textStyle="bold"
+                        android:textSize="19dp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="160dp"
+                        />
+                </FrameLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardBackgroundColor="@color/colorPrimaryDark"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="0dp"
+                android:orientation="vertical"
+                >
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+
+                        android:id="@+id/imageViewOthers"
+                        android:layout_width="match_parent"
+                        android:src="@drawable/aduino"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"/>
+                    <TextView
+                        android:id="@+id/EMBEDDED"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent_grey"
+                        android:text="E M B E D D E D"
+                        android:textStyle="bold"
+                        android:textSize="19dp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="160dp"
+                        />
+                </FrameLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

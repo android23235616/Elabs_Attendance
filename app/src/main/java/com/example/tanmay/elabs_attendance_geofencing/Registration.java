@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,7 @@ public class Registration extends AppCompatActivity {
     ProgressDialog dialog;
     CheckValidity validity ;
     Handler handler;
+    TextView t1, t2, t3, t4, t5;
    // TextView textSubject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +45,12 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         Variables_Init();
         if (isRegistered()) {
-            startActivity(new Intent(this, MapsActivity.class));
+           startActivity(new Intent(this, MainSubject.class));
             finish();
         } else {
             sharedPreferencesEditor.putBoolean(Constants.Registration_Shared_Preferences_key, true);
             sharedPreferencesEditor.apply();
         }
-
 
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +80,16 @@ public class Registration extends AppCompatActivity {
 
 
         });
+        setTypeface();
+    }
+
+    private void setTypeface(){
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/c.ttf");
+        t1.setTypeface(tf);
+        t2.setTypeface(tf);
+        t3.setTypeface(tf);
+        t4.setTypeface(tf);
+        t5.setTypeface(tf);
     }
 
     private void Register(){
@@ -96,7 +107,7 @@ public class Registration extends AppCompatActivity {
 
         } else if (validity.has_visited) {
 
-             startActivity(new Intent(Registration.this, MapsActivity.class));
+             startActivity(new Intent(Registration.this, MainSubject.class));
              finish();
             handler.post(new Runnable() {
                 @Override
@@ -138,6 +149,11 @@ public class Registration extends AppCompatActivity {
         preferences = getSharedPreferences(Constants.Registration_Shared_Preferences, Context.MODE_PRIVATE);
         sharedPreferencesEditor = preferences.edit();
         handler = new Handler();
+        t1 = (TextView)findViewById(R.id.textview1);
+        t2 = (TextView)findViewById(R.id.textview2);
+        t3 = (TextView)findViewById(R.id.textview3);
+        t4 = (TextView)findViewById(R.id.textview4);
+        t5 = (TextView)findViewById(R.id.textview5);
     }
 
     private void WriteToDatabase(Profile profile){
