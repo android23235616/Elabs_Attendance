@@ -56,7 +56,7 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               String r= Roll.getText().toString();
-                validity=  new CheckValidity(Registration.this,r);
+                validity=  new CheckValidity(Registration.this,r,false);
                 dialog = ProgressDialog.show(Registration.this, "Registering", "Please Wait...");
                 dialog.setCancelable(true);
                 new Thread(new Runnable() {

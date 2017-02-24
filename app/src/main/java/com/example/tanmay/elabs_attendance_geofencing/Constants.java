@@ -6,7 +6,7 @@ package com.example.tanmay.elabs_attendance_geofencing;
 
 public class Constants {
 
-    public static final String Registration_Shared_Preferences="SharedPrefernces41";
+    public static final String Registration_Shared_Preferences="SharedPrefernces44";
     public static final String Registration_Shared_Preferences_key = "Registered";
     public static String Has_Entered = "";
     public static String Entered = "23123876476567665765876877686721nvcncv";

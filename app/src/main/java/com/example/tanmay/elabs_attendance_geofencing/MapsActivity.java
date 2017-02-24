@@ -1,11 +1,13 @@
 package com.example.tanmay.elabs_attendance_geofencing;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -47,11 +49,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<Integer> mGeofenceRadius;
     private GeofenceStore mGeofenceStore;
     Button Present;
-    private String mainSubject="";
+    public static String mainSubject="";
     Intent i;
     DatabaseReference reference;
     SharedPreferences sharedPreferences;
-    TextView textSubject;
+    ProgressDialog dialog;
+    //TextView textSubject;
+    Handler handler;
     int patt=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,24 +86,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 | Geofence.GEOFENCE_TRANSITION_EXIT).build());
 
         mGeofenceStore = new GeofenceStore(this, mGeofence);
-
+        final CheckValidity validity = new CheckValidity(MapsActivity.this,"1000", true);
         Present.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog = ProgressDialog.show(MapsActivity.this,"Wait","1. Checking Permission");
+                dialog.setCancelable(true);
                 if (Constants.Has_Entered.equals(Constants.Entered)) {
-                    mainFunction();
+                    preFunction();
 
                 } else {
                     Both("Not present in the class.");
                 }
 
-            }
-        });
 
     }
 
-    private void Both(String s){
-        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+    private void preFunction(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                   // Both("Inside While Loop Validity is "+validity.isAllowed+" , "+validity.has_visited2);
+                    if(validity.has_visited2){
+                        if(validity.isAllowed){
+                            try {
+                                mainFunction();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.i("errors", e.toString());
+                            }
+                        }else{
+                            Both("You are not allowed to give attendance write now!");
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.cancel();
+                                }
+                            });
+                        }
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.setMessage("2. Checking Timing Validation...");
+                            }
+                        });
+                        break;
+                    }else{
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+        });
+    }
+
+    private void Both(final String s){
+       handler.post(new Runnable() {
+           @Override
+           public void run() {
+                Toast.makeText(MapsActivity.this,s,Toast.LENGTH_LONG).show();
+           }
+       });
         Log.d("info",s);
     }
 
@@ -111,14 +164,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         i = getIntent();
         mainSubject = i.getStringExtra("mainSubject");
         Present = (Button)findViewById(R.id.Present);
-
+        handler = new Handler();
         sharedPreferences = getSharedPreferences(Constants.Registration_Shared_Preferences, Context.MODE_PRIVATE);
         reference = FirebaseDatabase.getInstance().getReference("Attendance");
         setTypeFace();
     }
 
 
-    private void mainFunction(){
+    private void mainFunction() throws Exception {
         if(mainSubject.equals(Constants.subject_Changed_Condition)){
             Both("Please choose a subject");
         }else {
@@ -131,27 +184,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void checker(){
+    private void checker() throws Exception{
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Attendance_Profile profile=dataSnapshot.getValue(Attendance_Profile.class);
-                if(profile.Roll.equals(getRoll())&&!(profile.equals(null))) {
-                    String presentDate = profile.time;
-                    if (presentDate.equals(getDate())) {
-                        Both("You have already given your attendance");
-                    } else {
-                        double per = profile.Attendance;
-                        profile = new Attendance_Profile(mainSubject, getRoll(), per + 1, getDate());
-                        WriteToDatabase(profile);
-                        //patt=1;
+                if (!(dataSnapshot.getValue() instanceof Long)) {
+                    Attendance_Profile profile = dataSnapshot.getValue(Attendance_Profile.class);
+                    if (profile.Roll.equals(getRoll()) && !(profile.equals(null))) {
+                        String presentDate = profile.time;
+                        if (presentDate.equals(getDate())) {
+                            Both("You have already given your attendance");
+                        } else {
+                            double per = profile.Attendance;
+                            profile = new Attendance_Profile(mainSubject, getRoll(), per + 1, getDate());
+                            WriteToDatabase(profile);
+                            //patt=1;
+                        }
                     }
                 }
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.cancel();
+                    }
+                });
             }
 
             @Override
