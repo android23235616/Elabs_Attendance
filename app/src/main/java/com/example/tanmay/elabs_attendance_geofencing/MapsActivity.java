@@ -1,5 +1,6 @@
 package com.example.tanmay.elabs_attendance_geofencing;
 
+import android.app.AppOpsManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -168,6 +172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         sharedPreferences = getSharedPreferences(Constants.Registration_Shared_Preferences, Context.MODE_PRIVATE);
         reference = FirebaseDatabase.getInstance().getReference("Attendance");
         setTypeFace();
+        keepLookingForMockLocation();
     }
 
 
@@ -257,6 +262,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
+    private void keepLookingForMockLocation(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+               while(true){
+                   if(!isMockLocationOn()){
+                       Both("You just disabled mock location From this Application!");
+
+                       finish();
+
+                       break;
+                   }else{
+                       try {
+                           Thread.sleep(1200);
+                       } catch (InterruptedException e) {
+                           e.printStackTrace();
+                       }
+                   }
+               }
+            }
+        }).start();
+    }
+
+    private boolean isMockLocationOn(){
+        boolean isMockLocation = false;
+        try
+        {
+            //if marshmallow
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                AppOpsManager opsManager = (AppOpsManager) this.getSystemService(Context.APP_OPS_SERVICE);
+                isMockLocation = (opsManager.checkOp(AppOpsManager.OPSTR_MOCK_LOCATION, android.os.Process.myUid(), BuildConfig.APPLICATION_ID)== AppOpsManager.MODE_ALLOWED);
+            }
+            else
+            {
+                // in marshmallow this will always return true
+                isMockLocation = !android.provider.Settings.Secure.getString(this.getContentResolver(), "mock_location").equals("0");
+            }
+        }
+        catch (Exception e)
+        {
+            return isMockLocation;
+        }
+
+        return isMockLocation;
+
+    }
+
+    private boolean isNetWorkOn(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean enabled = false;
+        if(networkInfo!=null&&networkInfo.isConnected()){
+            enabled=true;
+        }
+        return enabled;
+    }
 
 
     @Override

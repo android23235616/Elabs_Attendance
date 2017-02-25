@@ -33,7 +33,7 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         logo = (ImageView) findViewById(R.id.logo);
         MockLocation = isMockLocationOn();
-        if (!MockLocation&&false) {
+        if (!MockLocation) {
 
             Toast.makeText(this, "Enable Mock Location On this Device!", Toast.LENGTH_SHORT).show();
             finish();
