@@ -25,9 +25,6 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 
-/**
- * Created by Tanmay on 13-02-2017.
- */
 
 public class GeofenceStore  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status>, LocationListener {
     private final String Tag = this.getClass().getSimpleName();
@@ -45,7 +42,7 @@ public class GeofenceStore  implements GoogleApiClient.ConnectionCallbacks, Goog
         mGoogleApiClient = new GoogleApiClient.Builder(context).addApi(LocationServices.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(4000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mGoogleApiClient.connect();
     }
 

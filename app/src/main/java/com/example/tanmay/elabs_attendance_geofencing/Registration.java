@@ -48,14 +48,15 @@ public class Registration extends AppCompatActivity {
            startActivity(new Intent(this, MainSubject.class));
             finish();
         } else {
-            sharedPreferencesEditor.putBoolean(Constants.Registration_Shared_Preferences_key, true);
-            sharedPreferencesEditor.apply();
+
         }
 
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               String r= Roll.getText().toString();
+                sharedPreferencesEditor.putBoolean(Constants.Registration_Shared_Preferences_key, true);
+                sharedPreferencesEditor.apply();
                 validity=  new CheckValidity(Registration.this,r,false);
                 dialog = ProgressDialog.show(Registration.this, "Registering", "Please Wait...");
                 dialog.setCancelable(true);
@@ -130,7 +131,7 @@ public class Registration extends AppCompatActivity {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                dialog.cancel();
+
             }
 
             @Override
@@ -196,5 +197,14 @@ public class Registration extends AppCompatActivity {
         subjectReference.child(profile.Roll).setValue(profile);
         subjectReference.child("1000").setValue(new Attendance_Profile("1000","",0,0+""));
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(dialog!=null)
+            dialog.dismiss();
+    }
+
 
 }

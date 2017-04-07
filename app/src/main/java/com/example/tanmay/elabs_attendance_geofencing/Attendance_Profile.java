@@ -18,6 +18,7 @@ public class Attendance_Profile {
 
     public Attendance_Profile(String C, String R, double A, String time){
         Class=C;
+
         Roll = R;
         Attendance=A;
         this.time=time;

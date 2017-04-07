@@ -98,7 +98,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dialog.setCancelable(true);
                 if (Constants.Has_Entered.equals(Constants.Entered)) {
                     preFunction();
-
                 } else {
                     Both("Not present in the class.");
                 }
@@ -270,9 +269,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                while(true){
                    if(!isMockLocationOn()){
                        Both("You just disabled mock location From this Application!");
-
                        finish();
-
                        break;
                    }else{
                        try {
@@ -326,7 +323,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(20.35138524475558, 85.82143073306530), 14));
-        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setIndoorEnabled(false);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -364,6 +361,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                .radius(Constants.radius)
 //                .fillColor(0x40ff0000)
 //                .strokeColor(Color.TRANSPARENT).strokeWidth(1));
-
-    }
+//
+//
+   }
 }

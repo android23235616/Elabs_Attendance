@@ -10,6 +10,8 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
+import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
@@ -45,19 +47,22 @@ public class GeofenceIntentService extends IntentService{
         if(!geofencingEvent.hasError()  )
         {
             int transition=geofencingEvent.getGeofenceTransition();
+
             String notificationTitle;
             switch (transition)
             {
                 case Geofence.GEOFENCE_TRANSITION_ENTER:
                     notificationTitle="Entered";
                     Constants.Has_Entered=Constants.Entered;
+                    sendNotification(this,getTriggeringGeofence(intent),notificationTitle);
                     break;
                 case  Geofence.GEOFENCE_TRANSITION_EXIT:
                     notificationTitle="Exited";
                     Constants.Has_Entered=Constants.Not_Entered;
+                    sendNotification(this,getTriggeringGeofence(intent),notificationTitle);
                     break;
                 case Geofence.GEOFENCE_TRANSITION_DWELL:
-                    notificationTitle="Dwelling,ghum rha hai bhai";
+                    notificationTitle="Dwelling";
                     Constants.Has_Entered=Constants.Entered;
                     break;
 
@@ -65,7 +70,7 @@ public class GeofenceIntentService extends IntentService{
                     notificationTitle="Geofence default";
 
             }
-            sendNotification(this,getTriggeringGeofence(intent),notificationTitle);
+
         }
     }
     private String getTriggeringGeofence(Intent intent)
@@ -79,6 +84,10 @@ public class GeofenceIntentService extends IntentService{
         }
 
         return TextUtils.join(", ", geofenceId);
+    }
+
+    private void Display( String msg){
+        Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
     }
 
     private void sendNotification(Context context,String notificationText,String notificationTitle)

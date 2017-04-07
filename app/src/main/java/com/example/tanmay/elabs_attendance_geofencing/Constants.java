@@ -13,9 +13,9 @@ public class Constants {
     public static String Not_Entered = "232145434656546456547vfvfxhvngn31321";
     public static final double Lat2 = 20.35138524475558;
     public static final double Lng2= 85.82143073306530;
-    public static final double Lat = 20.35550974091063; // lt1
-    public static final double Lng = 85.82042466849089; //lt1
-    public static final int radius = 20;
+    public static final double Lat = 20.355592499999997; // lt1
+    public static final double Lng = 85.82042578125001; //lt1
+    public static final int radius = 30;
     public static final double Lat1 = 20.351343;
     public static final double Lng1= 85.821465;
     public static final String subject_Changed_Condition="Choose Your class";

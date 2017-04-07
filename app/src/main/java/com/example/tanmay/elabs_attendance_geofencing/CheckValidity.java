@@ -48,10 +48,13 @@ public class CheckValidity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 has_visited2=true;
                 Long isAll = (Long)dataSnapshot.child("key").getValue();
-                if(isAll==1)
-                    isAllowed=true;
-                else
-                    isAllowed=false;
+                if(isAll!=null)
+                {
+                    if(isAll==1)
+                        isAllowed=true;
+                    else
+                        isAllowed=false;
+                }
             }
 
             @Override
